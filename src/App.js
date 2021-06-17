@@ -1,8 +1,9 @@
 import React, { useRef } from 'react';
 import { Canvas, useFrame } from 'react-three-fiber';
 import './App.css';
+import {softShadows, OrbitControls} from '@react-three/drei';
 
-
+softShadows();
 
 function Box({position}){
   const mesh = useRef(null)
@@ -24,12 +25,12 @@ function App() {
 
   return (
     <>
-      <Canvas shadowMap colorManangement camera = {{position: [-5, 2, 10], fov: 50}}>
+      <Canvas shadows colorManangement camera = {{position: [-5, 2, 10], fov: 50}}>
         <ambientLight intensity = {0.2}/>
         <directionalLight
           castShadow 
           position = {[0,10,0]} 
-          intensity = {1} 
+          intensity = {1.5} 
           shadow-mapSize-Width = {1024}
           shadow-mapSize-Height = {1024}
           shadow-camera-far = {50}
@@ -42,9 +43,8 @@ function App() {
 
         <group>
           <mesh receiveShadow rotation = {[-Math.PI / 2,0,1]} position = {[0,-3,0]}>
-            <planeBufferGeometry attach='geometry' args = {[100,100]}/>
-            <meshStandardMaterial attach= 'material' color = 'lightblue'/> 
-            <ShadowMaterial attach='material'/>  
+            <planeBufferGeometry attach='geometry' args = {[200,200]}/>
+            <shadowMaterial attach='material' opacity = {0.3}/>  
          </mesh>
         </group>
 
@@ -53,9 +53,11 @@ function App() {
         <Box position = {[4,0,-3]}/>
         <Box position = {[0,0,-5]}/>
         <Box position = {[5,0,-7]}/>
-        <Box position = {[4,0,-10]}/>
-        <Box position = {[8,0,-15]}/>
         
+        
+        
+        <OrbitControls />
+
       </Canvas>
     </>
   );
